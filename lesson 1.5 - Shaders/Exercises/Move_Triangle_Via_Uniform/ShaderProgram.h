@@ -13,7 +13,7 @@ class ShaderProgram
 	void Link();
 public:
 	ShaderProgram(const char*, const char*);
-	GLint GetIndex();
-	void Use();
+	GLint GetIndex() const;
+	void Use() const;
 };
 

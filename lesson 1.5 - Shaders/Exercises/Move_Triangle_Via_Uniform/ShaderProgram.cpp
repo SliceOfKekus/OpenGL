@@ -80,12 +80,12 @@ ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath)
 	glDeleteShader(fragmentShader);
 }
 
-GLint ShaderProgram::GetIndex()
+GLint ShaderProgram::GetIndex() const
 {
 	return this->program;
 }
 
-void ShaderProgram::Use()
+void ShaderProgram::Use() const
 {
 	glUseProgram(this->program);
 }
