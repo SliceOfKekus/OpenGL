@@ -1,0 +1,22 @@
+
+*.pdb
+*.txt
+*.idb
+*.tlog
+*.vcxproj
+*.sln
+*.ipch
+*.filters
+*.user
+*.obj
+*.exe
+*.db-wal
+*.db-shm
+lesson 1.5 - Shaders/Exercises/Flip_Triangle/.vs/Flip_Triangle/v16/.suo
+*.db
+Third_Task_1.4/.vs/Third_Task_1.4/v16/.suo
+*.ilk
+*.log
+Second_Task_1.4/.vs/Second_Task_1.4/v16/.suo
+*.recipe
+*.opendb
