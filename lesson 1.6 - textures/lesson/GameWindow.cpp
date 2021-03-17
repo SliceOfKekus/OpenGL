@@ -62,8 +62,8 @@ void GameWindow::LoadTexture(const char* tSource) const noexcept
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -91,6 +91,8 @@ void GameWindow::Render()
 		glBindTexture(GL_TEXTURE_2D, texture[1]);
 		glUniform1i(glGetUniformLocation(program.GetIndex(), "ourTexture2"), 1);
 
+		glUniform1f(glGetUniformLocation(program.GetIndex(), "mixValue"), mixValue);
+
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -103,6 +105,11 @@ void GameWindow::Render()
 	glDeleteBuffers(1, &IBO);
 
 	glfwTerminate();
+}
+
+void GameWindow::SetCallback(void(*func)(GLFWwindow*, int, int, int, int))
+{
+	glfwSetKeyCallback(window, func);
 }
 
 GameWindow::~GameWindow()

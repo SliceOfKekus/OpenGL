@@ -1,14 +1,10 @@
 #pragma once
-//#define GLEW_STATIC
-#include <glew.h>
-
 #include <string>
-#include <memory>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
-using std::shared_ptr;
+#include "Headers.h"
 
 class ShaderProgram
 {

@@ -1,11 +1,8 @@
 #pragma once
-#define GLEW_STATIC
-#include <glew.h>
-#include <glfw3.h>
-#include <SOIL.h>
-#include <vector>
-
+#include "Headers.h"
 #include "ShaderProgram.h"
+
+extern GLfloat mixValue;
 
 class GameWindow
 {
@@ -21,7 +18,7 @@ public:
 										 const GLuint*, GLsizeiptr);
 	void LoadTexture(const char*) const noexcept;
 	void Render();
+	void SetCallback(void(*)(GLFWwindow*, int, int, int, int));
 
 	~GameWindow();
 };
-
