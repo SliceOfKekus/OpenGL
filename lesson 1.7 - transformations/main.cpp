@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 
+#include <stdio.h>
+
 #include "Headers.h"
 #include "GameWindow.h"
 
@@ -71,10 +73,17 @@ int main()
 	auto game = new GameWindow(WIDTH, HEIGHT, vSource, fSource);
 
 	game->CreateBuffers(vertices, sizeof(vertices), indecies, sizeof(indecies));
+	game->CreateBuffers(vertices, sizeof(vertices), indecies, sizeof(indecies));
 	game->SetCallback(&Callback);
 	game->LoadTexture(container);
 	game->LoadTexture(awesomeFace);
 	game->Render();
+
+	//void* p = game;
+	//auto* pt = new (p) GameWindow(WIDTH, HEIGHT, vSource, fSource); //placement new 
+	//pt->~GameWindow();
+
+	//_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF); //check leak memory
 
 	return 0;
 }

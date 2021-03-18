@@ -9,14 +9,16 @@
 extern GLfloat angleInRadians;
 extern GLfloat mixValue;
 
+using std::vector;
+
 class GameWindow
 {
 	GLFWwindow* window;
 	ShaderProgram program;
-	mutable std::vector<GLuint> texture;
-	GLuint VAO;
-	GLuint VBO;
-	GLuint IBO;
+	mutable vector<GLuint> texture;
+	vector<GLuint> VAO;
+	vector<GLuint> VBO;
+	vector<GLuint> IBO;
 public:
 	GameWindow(int, int, const char*, const char*);
 	void CreateBuffers(const GLfloat*, GLsizeiptr, 

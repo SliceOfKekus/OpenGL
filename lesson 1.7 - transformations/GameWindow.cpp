@@ -26,16 +26,20 @@ GameWindow::GameWindow(int width, int height, const char* vSource, const char* f
 void GameWindow::CreateBuffers(const GLfloat* v, GLsizeiptr vSize,
 															 const GLuint* i, GLsizeiptr iSize)
 {
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &IBO);
+	VAO.push_back(0);
+	VBO.push_back(0);
+	IBO.push_back(0);
 
-	glBindVertexArray(VAO);
+	glGenVertexArrays(1, &VAO[VAO.size() - 1]);
+	glGenBuffers(1, &VBO[VBO.size() - 1]);
+	glGenBuffers(1, &IBO[IBO.size() - 1]);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindVertexArray(VAO[VAO.size() - 1]);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[VBO.size() - 1]);
 	glBufferData(GL_ARRAY_BUFFER, vSize, v, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO[IBO.size() - 1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, iSize, i, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
@@ -99,25 +103,38 @@ void GameWindow::Render()
 		mat4 transform(1.0f);
 		GLuint transformLoc = glGetUniformLocation(program.GetIndex(), "transformMatrix");
 
-		
-		transform = rotate(transform, static_cast<GLfloat>(sin(glfwGetTime())) * 10.f, vec3(0.f, 0.f, 1.f));
 		transform = translate(transform, vec3(0.5f, -0.5f, 0.f));
+		transform = rotate(transform, static_cast<GLfloat>(sin(glfwGetTime())) * 10.f, vec3(0.f, 0.f, 1.f));
 
 		//transform = rotate(transform, angleInRadians, vec3(0.f, 0.f, 1.f));
 		//transform = scale(transform, vec3(0.5f, 0.5f, 0.5f));
 
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(transform));
+		
+		glBindVertexArray(VAO[0]);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		glBindVertexArray(VAO);
+		GLfloat scaleCoeff = static_cast<GLfloat>(sin(glfwGetTime()));
+
+		transform = mat4(1.f);
+		transform = translate(transform, vec3(-0.5f, 0.5f, 0.f));
+		transform = scale(transform, vec3(scaleCoeff, scaleCoeff, scaleCoeff));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(transform));
+
+		glBindVertexArray(VAO[1]);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
+		
 
 		glfwSwapBuffers(window);
 	}
 
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &IBO);
+	for (auto& obj : VAO)
+		glDeleteVertexArrays(1, &obj);
+	for (auto& obj : VBO)
+	glDeleteBuffers(1, &obj);
+	for (auto& obj : IBO)
+	glDeleteBuffers(1, &obj);
 
 	glfwTerminate();
 }
